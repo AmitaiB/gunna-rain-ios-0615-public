@@ -16,7 +16,9 @@
 
 @end
 
-@implementation FISViewController
+@implementation FISViewController {
+    CLLocationManager *locationManager;
+}
 
 - (void)viewDidLoad
 {
