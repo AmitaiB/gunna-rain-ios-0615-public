@@ -57,8 +57,8 @@
     Forecastr *forecastManager = [Forecastr sharedManager];
     forecastManager.apiKey = @"494b30eb0b57eaa2ea9124eb3dede8c4";
     
-    int degreesLat = (int)self.currentLocation.coordinate.latitude;
-    int degreesLng = (int)self.currentLocation.coordinate.longitude;
+    NSInteger degreesLat = self.currentLocation.coordinate.latitude;
+    NSInteger degreesLng = self.currentLocation.coordinate.longitude;
 
     __block NSMutableDictionary *APIresponse = [@{} mutableCopy];
      [forecastManager getForecastForLatitude:degreesLat longitude:degreesLng time:nil exclusions:nil extend:nil success:^(id JSON) {
@@ -67,6 +67,9 @@
      } failure:^(NSError *error, id response) {
          NSLog(@"Error while retrieving forecast: ");
      }];
+    
+    
+    NSLog(@"after block");
     
     NSNumber *precipProb = APIresponse[@"currently"][@"precipProbability"];
     

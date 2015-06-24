@@ -10,7 +10,7 @@
 		275BEC8CABB385112DB89677 /* libPods-gunnaRainTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BC05FC9EA2AE673F6B372FF8 /* libPods-gunnaRainTests.a */; };
 		9A2005352147498DAE012A3E /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CB2FD8FE2ED14131A72CD3B4 /* libPods.a */; };
 		D81D44AE195D8993007B2D60 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D81D44AD195D8993007B2D60 /* Foundation.framework */; };
-		D81D44B0195D8993007B2D60 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D81D44AF195D8993007B2D60 /* CoreGraphics.framework */; };
+		D81D44B0195D8993007B2D60 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D81D44AF195D8993007B2D60 /* CoreGraphics.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		D81D44B2195D8993007B2D60 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D81D44B1195D8993007B2D60 /* UIKit.framework */; };
 		D81D44B8195D8993007B2D60 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D81D44B6195D8993007B2D60 /* InfoPlist.strings */; };
 		D81D44BA195D8993007B2D60 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D81D44B9195D8993007B2D60 /* main.m */; };
