@@ -7,6 +7,7 @@
 //
 
 #import "FISViewController.h"
+#import <Forecastr.h>
 
 @interface FISViewController ()
 @property (nonatomic) BOOL isRaining;
@@ -52,6 +53,11 @@
     self.latitudeField.hidden = YES;
     self.longitudeField.hidden = YES;
     
+    Forecastr *forecastManager = [Forecastr sharedManager];
+    forecastManager.apiKey = @"494b30eb0b57eaa2ea9124eb3dede8c4";
+     
+     getForecastForLatitude:<#(double)#> longitude:<#(double)#> time:<#(NSNumber *)#> exclusions:<#(NSArray *)#> extend:<#(NSString *)#> success:<#^(id JSON)success#> failure:<#^(NSError *error, id response)failure#>]
+    
 }
 
 
@@ -73,6 +79,10 @@
     if (currentLocation != nil) {
         self.currentLongitudeLabel.text = [NSString stringWithFormat:@"%.8f", currentLocation.coordinate.longitude];
         self.currentLatitudeLabel.text = [NSString stringWithFormat:@"%.8f", currentLocation.coordinate.latitude];
+    
+    
+    
+    
     }
 
 }
