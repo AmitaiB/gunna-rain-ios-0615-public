@@ -9,6 +9,10 @@
 #import "FISViewController.h"
 
 @interface FISViewController ()
+@property (nonatomic) BOOL isRaining;
+@property (weak, nonatomic) IBOutlet UITextField *latitudeField;
+@property (weak, nonatomic) IBOutlet UITextField *longitudeField;
+- (IBAction)getMyLocationButtonTapped:(id)sender;
 
 @end
 
@@ -27,4 +31,8 @@
     // Dispose of any resources that can be recreated.
 }
 
+
+
+- (IBAction)getMyLocationButtonTapped:(id)sender {
+}
 @end
