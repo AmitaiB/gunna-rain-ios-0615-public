@@ -13,6 +13,10 @@
 @property (weak, nonatomic) IBOutlet UITextField *latitudeField;
 @property (weak, nonatomic) IBOutlet UITextField *longitudeField;
 - (IBAction)getMyLocationButtonTapped:(id)sender;
+@property (weak, nonatomic) IBOutlet UILabel *staticLatitudeLabel;
+@property (weak, nonatomic) IBOutlet UILabel *staticLongitudeLabel;
+@property (weak, nonatomic) IBOutlet UILabel *currentLatitudeLabel;
+@property (weak, nonatomic) IBOutlet UILabel *currentLongitudeLabel;
 
 @end
 
@@ -25,6 +29,9 @@
     [super viewDidLoad];
 
 	// Do any additional setup after loading the view, typically from a nib.
+    locationManager = [[CLLocationManager alloc] init];
+    self.staticLatitudeLabel.text = @"for Latitude:";
+    self.staticLongitudeLabel.text = @"for Longitude:";
 }
 
 - (void)didReceiveMemoryWarning
@@ -34,7 +41,33 @@
 }
 
 
-
 - (IBAction)getMyLocationButtonTapped:(id)sender {
+    locationManager.delegate = self;
+    locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+    
+    [locationManager startUpdatingLocation];
+    
+    self.latitudeField.hidden = YES;
+    self.longitudeField.hidden = YES;
 }
+
+
+#pragma mark - CLLocationManagerDelegate
+
+-(void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
+{
+    NSLog(@"didFailWithError: %@", error);
+    UIAlertView *errorAlert = [[UIAlertView alloc] initWithTitle:@"DON'T PANIC :-)" message:@"But there was an ERROR: we failed to get your location." delegate:nil cancelButtonTitle:@"Uh, ok..." otherButtonTitles:nil];
+    
+    [errorAlert show];
+}
+
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
+{
+    CLLocation *currentLocation = [locations lastObject];
+    NSLog(@"didUpdateLocations --> [locations lastObject]: %@", currentLocation);
+    
+
+}
+
 @end

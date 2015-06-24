@@ -24,7 +24,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Loading" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2w1-nb-uXg">
-                                <rect key="frame" x="0.0" y="211" width="320" height="150"/>
+                                <rect key="frame" x="0.0" y="372" width="320" height="150"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="90"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -47,12 +47,40 @@
                                     <action selector="getMyLocationButtonTapped:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="v0v-3M-EWr"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Latitude" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xvf-Ph-OfU">
+                                <rect key="frame" x="103" y="273" width="114" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Longitude" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dLC-8I-zdW">
+                                <rect key="frame" x="103" y="320" width="109" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="for Latitude:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WzI-QI-adW">
+                                <rect key="frame" x="114" y="254" width="93" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="for Longitude" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J3F-iS-M4y">
+                                <rect key="frame" x="109" y="302" width="103" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <connections>
+                        <outlet property="currentLatitudeLabel" destination="Xvf-Ph-OfU" id="okZ-R9-wdK"/>
+                        <outlet property="currentLongitudeLabel" destination="dLC-8I-zdW" id="hy6-zn-bhN"/>
                         <outlet property="latitudeField" destination="X1J-tY-2I1" id="Ais-kk-NAS"/>
                         <outlet property="longitudeField" destination="8bR-OI-jxp" id="Mq3-Ka-Lei"/>
+                        <outlet property="staticLatitudeLabel" destination="WzI-QI-adW" id="hw9-q3-Vzu"/>
+                        <outlet property="staticLongitudeLabel" destination="J3F-iS-M4y" id="4MB-0F-EB3"/>
                         <outlet property="weatherStatus" destination="2w1-nb-uXg" id="e84-8g-ioP"/>
                     </connections>
                 </viewController>
