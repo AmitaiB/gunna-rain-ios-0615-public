@@ -67,8 +67,19 @@
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
 {
-    CLLocation *currentLocation = [locations lastObject];
+    CLLocation *currentLocation = [[CLLocation alloc] init];
+    
+    if (self.longitudeField.text != nil && self.latitudeField != nil) {
+        CLLocationDegrees inputLat = [self.latitudeField.text integerValue];
+        CLLocationDegrees inputLng = [self.longitudeField.text integerValue];
+        
+        currentLocation = [[CLLocation alloc] initWithLatitude:inputLat longitude:inputLng];
+    } else {
+        currentLocation = [locations lastObject];
+    }
+    
     NSLog(@"didUpdateLocations --> [locations lastObject]: %@", currentLocation);
+    
     
     if (currentLocation != nil) {
         self.currentLongitudeLabel.text = [NSString stringWithFormat:@"%.8f", currentLocation.coordinate.longitude];
