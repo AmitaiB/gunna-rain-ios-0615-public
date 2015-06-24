@@ -32,6 +32,9 @@
     locationManager = [[CLLocationManager alloc] init];
     self.staticLatitudeLabel.text = @"for Latitude:";
     self.staticLongitudeLabel.text = @"for Longitude:";
+    
+    self.latitudeField.delegate = self;
+    self.longitudeField.delegate = self;
 }
 
 - (void)didReceiveMemoryWarning
@@ -65,6 +68,16 @@
     [errorAlert show];
 }
 
+-(BOOL)textFieldShouldReturn:(UITextField *)textField {
+    NSLog(@"%@ entered as %@.", textField.text, textField.placeholder);
+    if (textField == self.latitudeField) {
+        [self.longitudeField becomeFirstResponder];
+    } else if (textField == self.longitudeField) {
+        [self resignFirstResponder];
+    }
+    return YES;    
+}
+
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
 {
     CLLocation *currentLocation = [[CLLocation alloc] init];
@@ -77,6 +90,8 @@
     } else {
         currentLocation = [locations lastObject];
     }
+    
+    [self resignFirstResponder];
     
     NSLog(@"didUpdateLocations --> [locations lastObject]: %@", currentLocation);
     

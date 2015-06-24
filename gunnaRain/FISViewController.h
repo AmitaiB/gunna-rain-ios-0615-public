@@ -11,6 +11,6 @@
 #import <Forecastr.h>
 
 
-@interface FISViewController : UIViewController <CLLocationManagerDelegate>
+@interface FISViewController : UIViewController <CLLocationManagerDelegate,UITextFieldDelegate>
 @property (strong, nonatomic) IBOutlet UILabel *weatherStatus;
 @end
