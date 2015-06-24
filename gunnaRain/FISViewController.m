@@ -45,10 +45,13 @@
     locationManager.delegate = self;
     locationManager.desiredAccuracy = kCLLocationAccuracyBest;
     
+    [locationManager requestWhenInUseAuthorization];
+    
     [locationManager startUpdatingLocation];
     
     self.latitudeField.hidden = YES;
     self.longitudeField.hidden = YES;
+    
 }
 
 
@@ -66,6 +69,11 @@
 {
     CLLocation *currentLocation = [locations lastObject];
     NSLog(@"didUpdateLocations --> [locations lastObject]: %@", currentLocation);
+    
+    if (currentLocation != nil) {
+        self.currentLongitudeLabel.text = [NSString stringWithFormat:@"%.8f", currentLocation.coordinate.longitude];
+        self.currentLatitudeLabel.text = [NSString stringWithFormat:@"%.8f", currentLocation.coordinate.latitude];
+    }
     
 
 }
