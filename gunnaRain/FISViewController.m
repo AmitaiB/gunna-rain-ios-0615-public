@@ -17,6 +17,10 @@
 @property (nonatomic, strong) NSString *latitude;
 @property (nonatomic, strong) NSDictionary *weatherDictionary;
 
+@property (weak, nonatomic) IBOutlet UILabel *currentLatitudeLabel;
+@property (weak, nonatomic) IBOutlet UILabel *currentLongitudeLabel;
+
+
 
 @end
 
@@ -50,6 +54,7 @@
                                         } failure:^(NSError *error, id response) {
                                             NSLog(@"Error while retrieving forecast: %@", [self.forcastManager messageForError:error withResponse:response]);
                                         }];
+    [self updateWeatherStatusLabel];
 }
 
 -(void)getLocation {
@@ -69,6 +74,18 @@
 
     self.latitude = [NSString stringWithFormat:@"%+.6f", self.locationManager.location.coordinate.latitude];
     self.longtitude = [NSString stringWithFormat:@"%+.6f", self.locationManager.location.coordinate.longitude];
+    
+    [self updateLocationDisplay];
+}
+
+/*
+color of documentation - test
+*/
+-(void)updateLocationDisplay {
+    if (self.latitude.length > 0)
+        {self.currentLatitudeLabel.text = self.latitude;}
+    if (self.longtitude.length > 0)
+        {self.currentLongitudeLabel.text = self.longtitude;}
 }
 
 //Thanks to Jordan Gugges for finding this snippet online
@@ -118,7 +135,7 @@
 
 -(void)updateWeatherStatusLabel
 {
-    if ((NSInteger)self.weatherDictionary[@"precipProbability"] != 1) {
+    if ((NSInteger)self.weatherDictionary[@"precipProbability"] < 1) {
         self.weatherStatus.text = @"Nope";
     } else {
         self.weatherStatus.text = @"Yep";
