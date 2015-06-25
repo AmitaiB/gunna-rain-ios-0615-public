@@ -11,14 +11,12 @@
 
 @interface FISViewController ()
 @property (nonatomic) BOOL isRaining;
-@property (weak, nonatomic) IBOutlet UITextField *latitudeField;
-@property (weak, nonatomic) IBOutlet UITextField *longitudeField;
-- (IBAction)getMyLocationButtonTapped:(id)sender;
-@property (weak, nonatomic) IBOutlet UILabel *staticLatitudeLabel;
-@property (weak, nonatomic) IBOutlet UILabel *staticLongitudeLabel;
-@property (weak, nonatomic) IBOutlet UILabel *currentLatitudeLabel;
-@property (weak, nonatomic) IBOutlet UILabel *currentLongitudeLabel;
-@property (nonatomic, strong) CLLocation *currentLocation;
+@property (nonatomic, strong) CLLocationManager *locationManager;
+@property (nonatomic, strong) Forecastr *forcastManager;
+@property (nonatomic, strong) NSString *longtitude;
+@property (nonatomic, strong) NSString *latitude;
+@property (nonatomic, strong) NSDictionary *weatherDictionary;
+
 
 @end
 
@@ -29,12 +27,70 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    Forecastr *forecastManager = [Forecastr sharedManager];
+    forecastManager.apiKey = @"494b30eb0b57eaa2ea9124eb3dede8c4";
 
+    
+    
 	// Do any additional setup after loading the view, typically from a nib.
     locationManager = [[CLLocationManager alloc] init];
-    self.staticLatitudeLabel.text = @"for Latitude:";
-    self.staticLongitudeLabel.text = @"for Longitude:";
 }
+
+-(void)viewDidAppear:(BOOL)animated {
+    
+}
+
+-(void)getLocation {
+    //Create the location manager (only) in case the object
+    //does not already have one.
+    if (nil == _locationManager) {
+        _locationManager = [[CLLocationManager alloc] init];
+    }
+    
+    self.locationManager.delegate = self;
+    
+    [self safeRequestForWhenInUseAuth];
+    
+}
+
+//Thanks to Jordan Gugges for finding this snippet online
+-(void) safeRequestForWhenInUseAuth {
+    CLAuthorizationStatus status = [CLLocationManager authorizationStatus];
+    
+    if (status == kCLAuthorizationStatusDenied ||
+        status == kCLAuthorizationStatusRestricted ||
+        status == kCLAuthorizationStatusRestricted ||
+        status == kCLAuthorizationStatusNotDetermined) {
+        
+        NSString *title;
+        
+        title = (status == kCLAuthorizationStatusDenied ||
+                 status == kCLAuthorizationStatusRestricted)? @"Location Services Are Off" : @"Background use is not enabled";
+        
+        NSString *message = @"Go to settings";
+        
+        UIAlertController *settingsAlert = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction *goToSettings = [UIAlertAction actionWithTitle:@"Settings" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            NSURL *settingsURL = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
+            
+            [[UIApplication sharedApplication]openURL:settingsURL];
+        }];
+        
+        UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil];
+        
+        [settingsAlert addAction:goToSettings];
+        [settingsAlert addAction:cancel];
+        
+        [self presentViewController:settingsAlert animated:YES completion:nil];
+    
+    } else if (status == kCLAuthorizationStatusNotDetermined) {
+        [self.locationManager requestWhenInUseAuthorization];
+    }
+}
+
+    
+
 
 - (void)didReceiveMemoryWarning
 {
@@ -54,8 +110,6 @@
 //    self.latitudeField.hidden = YES;
 //    self.longitudeField.hidden = YES;
     
-    Forecastr *forecastManager = [Forecastr sharedManager];
-    forecastManager.apiKey = @"494b30eb0b57eaa2ea9124eb3dede8c4";
     
     NSInteger degreesLat = self.currentLocation.coordinate.latitude;
     NSInteger degreesLng = self.currentLocation.coordinate.longitude;

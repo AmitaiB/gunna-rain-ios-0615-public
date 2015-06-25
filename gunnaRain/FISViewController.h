@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
+#import <Forecastr.h>
 
 @interface FISViewController : UIViewController <CLLocationManagerDelegate>
 @property (strong, nonatomic) IBOutlet UILabel *weatherStatus;
