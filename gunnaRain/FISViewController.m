@@ -37,20 +37,38 @@
 }
 
 -(void)viewDidAppear:(BOOL)animated {
+    [self getLocation];
     
+    NSLog(@"%@, %@", self.latitude, self.longtitude);
+    [self.forcastManager getForecastForLatitude:[self.latitude integerValue]
+                                      longitude:[self.longtitude integerValue]
+                                           time:nil
+                                     exclusions:nil
+                                         extend:nil
+                                        success:^(id JSON) {
+                                            self.weatherDictionary = JSON[@"currently"];
+                                        } failure:^(NSError *error, id response) {
+                                            NSLog(@"Error while retrieving forecast: %@", [self.forcastManager messageForError:error withResponse:response]);
+                                        }];
 }
 
 -(void)getLocation {
     //Create the location manager (only) in case the object
     //does not already have one.
+    //This will prepare the 'recepticle' for the location info.
     if (nil == _locationManager) {
         _locationManager = [[CLLocationManager alloc] init];
     }
-    
     self.locationManager.delegate = self;
     
+    //This will secure the Authorization to get the location info.
     [self safeRequestForWhenInUseAuth];
     
+    [locationManager startUpdatingLocation];
+    [NSThread sleepForTimeInterval:1];
+
+    self.latitude = [NSString stringWithFormat:@"%+.6f", self.locationManager.location.coordinate.latitude];
+    self.longtitude = [NSString stringWithFormat:@"%+.6f", self.locationManager.location.coordinate.longitude];
 }
 
 //Thanks to Jordan Gugges for finding this snippet online
@@ -98,50 +116,14 @@
     // Dispose of any resources that can be recreated.
 }
 
-
-- (IBAction)getMyLocationButtonTapped:(id)sender {
-    locationManager.delegate = self;
-    locationManager.desiredAccuracy = kCLLocationAccuracyBest;
-    
-    [locationManager requestWhenInUseAuthorization];
-    
-    [locationManager startUpdatingLocation];
-    [NSThread sleepForTimeInterval:1];
-//    self.latitudeField.hidden = YES;
-//    self.longitudeField.hidden = YES;
-    
-    
-    NSInteger degreesLat = self.currentLocation.coordinate.latitude;
-    NSInteger degreesLng = self.currentLocation.coordinate.longitude;
-
-    __block NSMutableDictionary *APIresponse = [@{} mutableCopy];
-     [forecastManager getForecastForLatitude:degreesLat longitude:degreesLng time:nil exclusions:nil extend:nil success:^(id JSON) {
-         NSLog(@"JSON Response was: %@", JSON);
-         APIresponse = [JSON mutableCopy];
-     } failure:^(NSError *error, id response) {
-         NSLog(@"Error while retrieving forecast: ");
-     }];
-    
-    
-    NSLog(@"after block");
-    
-    NSNumber *precipProb = APIresponse[@"currently"][@"precipProbability"];
-    
-    self.isRaining = NO;
-
-    if (precipProb.intValue == 1) {
-        self.isRaining = YES;
-    }
-    
-    if (self.isRaining) {
-        self.weatherStatus.text = @"Yep";
-    } else {
+-(void)updateWeatherStatusLabel
+{
+    if ((NSInteger)self.weatherDictionary[@"precipProbability"] != 1) {
         self.weatherStatus.text = @"Nope";
+    } else {
+        self.weatherStatus.text = @"Yep";
     }
-    
-    
 }
-
 
 
 
@@ -155,20 +137,5 @@
     [errorAlert show];
 }
 
-- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
-{
-    self.currentLocation = [locations lastObject];
-    NSLog(@"didUpdateLocations --> [locations lastObject]: %@", self.currentLocation);
-    
-    if (self.currentLocation != nil) {
-        self.currentLongitudeLabel.text = [NSString stringWithFormat:@"%.8f", self.currentLocation.coordinate.longitude];
-        self.currentLatitudeLabel.text = [NSString stringWithFormat:@"%.8f", self.currentLocation.coordinate.latitude];
-    
-    
-    
-    
-    }
-
-}
 
 @end
